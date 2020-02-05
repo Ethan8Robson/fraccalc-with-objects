@@ -23,11 +23,27 @@ public class FracCalc {
 	}
 
 	public static String produceAnswer(String input) {
-		
-		return "";
+		// Creates the fractions, calls the methods to do the calculations and returns the answer.
+		String[] answer = input.split(" ");
+		Fraction separateFrac1 = new Fraction(answer[0]);
+		Fraction separateFrac2 = new Fraction(answer[2]);
+		separateFrac1.toImproperFrac();
+		separateFrac2.toImproperFrac();
+		String returnAnswer = "";
+		if (answer[1].equals("*") == true) {
+			separateFrac1.multiply(separateFrac2);
+		} else if (answer[1].equals("/") == true) {
+			separateFrac1.divide(separateFrac2);
+		} else if (answer[1].equals("+") == true) {
+			separateFrac1.add(separateFrac2);
+		} else if (answer[1].equals("-") == true) {
+			separateFrac1.subtract(separateFrac2);
+		}
+		separateFrac1.reduceFrac();
+		separateFrac1.toMixedNum();
+		separateFrac1.negativeChecker();
+		returnAnswer = separateFrac1.toString();
+		return returnAnswer;
 	}
-
-	// TODO: Fill in the space below with any helper methods that you think you will
-	// need
 
 }

@@ -10,19 +10,25 @@ public class Fraction {
 	private int denominator;
 
 	public Fraction(String frac) {
+		// Separates the fraction into numerator, denominator, and whole
+		denominator = 1;
+		String fraction = frac;
 		if (!frac.contains("/")) {
 			whole = Integer.parseInt(frac);
 		}
 		if (frac.contains("_")) {
 			whole = Integer.parseInt(frac.substring(0, frac.indexOf("_")));
+			fraction = frac.substring(frac.indexOf("_")+1);
 		}
 		if (frac.contains("/")) {
-			numerator = Integer.parseInt(frac.substring(frac.indexOf("/") - 1, frac.indexOf("/")));
-			denominator = Integer.parseInt(frac.substring(frac.indexOf("/"), frac.indexOf("/") + 1));
+			String[] separateNumDen = fraction.split("/");
+			numerator = Integer.parseInt(separateNumDen[0]);
+			denominator = Integer.parseInt(separateNumDen[1]);
 		}
 	}
 
 	public Fraction(int whole, int num, int den) {
+		// Assigns the fraction into numerator, denominator, and whole
 		this.whole = whole;
 		this.numerator = num;
 		this.denominator = den;
@@ -47,7 +53,7 @@ public class Fraction {
 	public void reduceFrac() {
 		// Runs a for-loop to find the simplest fraction.
 		int gcf = 1;
-		for (int i = 1; i <= denominator; i++) {
+		for (int i = 1; i <= Math.max(Math.abs(numerator), Math.abs(denominator)); i++) {
 			if (numerator % i == 0 && denominator % i == 0) {
 				gcf = i;
 			}
@@ -56,16 +62,25 @@ public class Fraction {
 		denominator = denominator / gcf;
 	}
 	
-	public String toString(int integer) {
-		return integer + "";
+	public String toString() {
+		// Returns the fraction in thew form of a string.
+		if (numerator == 0) {
+			return whole + "";
+		}
+		if (whole == 0) {
+			return numerator + "/" + denominator;
+		}
+		return whole + "_" + numerator + "/" + denominator;
 	}
 	
 	public void multiply(Fraction frac) {
+		// Multiplies the fractions together
 		numerator = numerator * frac.getNumerator();
 		denominator = denominator * frac.getDenominator();
 	}
 	
 	public void divide(Fraction frac) {
+		// Divides the fractions.
 		numerator = numerator * frac.getDenominator();
 		denominator = denominator * frac.getNumerator();
 	}
@@ -82,17 +97,49 @@ public class Fraction {
 		denominator = (denominator * frac.getDenominator());
 	}
 	public int getNumerator() {
+		// Retrieves the numerator.
 		return numerator;
 	}
 	
 	public int getDenominator() {
+		// Retrieves the denominator.
 		return denominator;
 	}
 	
 	public int getWhole() {
+		// Retrieves the whole.
 		return whole;
 	}
 	
+	public void setNumerator(int num) {
+		// Sets the numerator.
+		numerator = num;
+	}
 	
-
+	public void setDenominator(int den) {
+		// Sets the denominator.
+		denominator = den;
+	}
+	
+	public void setWhole(int wholeNum) {
+		// Sets the whole.
+		whole = wholeNum;
+	}
+	
+	public void negativeChecker() {
+		// Checker for if negative is in wrong place(ex. when it is in the denominator).
+		if (whole < 0) {
+			numerator = Math.abs(numerator);
+			denominator = Math.abs(denominator);
+		} else if (whole > 0) {
+			if (numerator < 0 && denominator < 0) {
+				numerator = Math.abs(numerator);
+				denominator = Math.abs(denominator);
+			}
+		} else if (denominator < 0 && numerator > 0) {
+			numerator *= -1;
+			denominator *= -1;
+		}
+	}
+	
 }
